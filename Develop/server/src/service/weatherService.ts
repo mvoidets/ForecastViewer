@@ -112,10 +112,11 @@ private async fetchLocationData() {
     return allWeatherData;
 }
 
-  // TODO: Build parseCurrentWeather method
+  // TODO: Build parseCurrentWeather method 
+  //what is this even doing? not called anywhere useful
   private parseCurrentWeather(response: any) {
     const { temp: temperature} = response.main;
-    const { wind: wind} = response.wind;
+    const { wind: wind} = response.wind.speed;
     const { humidity: humidity } = response.main;
     return { temperature, wind, humidity };
 }
@@ -136,12 +137,14 @@ private async fetchLocationData() {
   async getWeatherForCity(city: string) {
     this.cityName = city;
     await this.fetchAndDestructureLocationData(); 
-    
     const weatherData = await this.fetchWeatherData(this.coordinates);
     const currentWeather = this.parseCurrentWeather(weatherData);
-  
     const forecastArray = this.buildForecastArray(weatherData.daily);
+    //
     console.log(forecastArray);
+    console.log(this.coordinates);
+    console.log(weatherData);
+    //
     return { currentWeather, forecastArray };
 }
 

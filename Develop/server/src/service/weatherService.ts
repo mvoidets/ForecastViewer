@@ -10,17 +10,19 @@ lon: string;
 
 //where do i define city the user will enter??? 
 // let city;  ???
-// // TODO: Define a class for the Weather object
-class Weather {
-  temperature: string;
-  conditions: string;
+// // TODO: Define a class for the Weather objlet
+// class Weather {
+//   temperature: string;
+//   conditions: string;
 
-  constructor(temperature: string, conditions: string) {
-    this.temperature = temperature;
-    this.conditions = conditions;
+
+//   constructor(temperature: string, conditions: string) {
+//     this.temperature = temperature;
+//     this.conditions = conditions;
+    
   
-}
-};
+// }
+// };
 
 
 // TODO: Complete the WeatherService class
@@ -43,7 +45,7 @@ class WeatherService {
   // TODO: Create fetchLocationData method
   //i dont know lat and lon at this point???  only city  name
 
-private async fetchLocationData(city: string) {
+private async fetchLocationData() {
   const endpoint = `${this.baseURL}/data/2.5/weather?q=${this.cityName}&appid=${this.apiKey}`;
   try {
     const response = await fetch(endpoint);
@@ -61,7 +63,7 @@ private async fetchLocationData(city: string) {
   private async destructureLocationData() {
     // const  locationData = await this.fetchLocationData(city)
     try {
-      const locationData = await this.fetchLocationData(city);
+      const locationData = await this.fetchLocationData();
       
       // Destructure to get city name and coordinates
       const { name: city, coord } = locationData; // Adjust based on actual data structure

@@ -10,19 +10,19 @@ lon: string;
 
 //where do i define city the user will enter??? 
 // let city;  ???
-// // TODO: Define a class for the Weather objlet
-// class Weather {
-//   temperature: string;
-//   conditions: string;
+// TODO: Define a class for the Weather objlet
+class Weather {
+  temperature: string;
+  conditions: string;
 
 
-//   constructor(temperature: string, conditions: string) {
-//     this.temperature = temperature;
-//     this.conditions = conditions;
+  constructor(temperature: string, conditions: string) {
+    this.temperature = temperature;
+    this.conditions = conditions;
     
   
-// }
-// };
+}
+};
 
 
 // TODO: Complete the WeatherService class
@@ -41,6 +41,9 @@ class WeatherService {
     this.apiKey = process.env.apiKey || "";
   
   }
+  public setCityName(cityName: string) {
+    this.cityName = cityName;
+  }
 
   // TODO: Create fetchLocationData method
   //i dont know lat and lon at this point???  only city  name
@@ -55,13 +58,12 @@ private async fetchLocationData() {
    
     return await response.json();
   } catch (error) {
-    console.error('Failed to fetch location data:', error);
+    console.error('Failed to fetch location data:', how);
     throw error;
   }
 }
   // TODO: Create destructureLocationData method
-  private async destructureLocationData() {
-    // const  locationData = await this.fetchLocationData(city)
+  private async destructureLocationData(): Promise<Coordinates> {
     try {
       const locationData = await this.fetchLocationData();
       
@@ -75,6 +77,7 @@ private async fetchLocationData() {
           lon: coord.lon
       };
 
+      return this.coordinates;
   
   } catch (error) {
       console.error('Error destructuring location data:', error);
@@ -109,9 +112,9 @@ private async fetchLocationData() {
 }
 
   // TODO: Build parseCurrentWeather method
-  private parseCurrentWeather(response: any) {
+  private parseCurrentWeather(response: any): Weather {
     const { temp: temperature, weather: conditions } = response.current;
-    return { temperature, conditions };
+    return new Weather(temperature, conditions);
 }
 
   // TODO: Complete buildForecastArray method

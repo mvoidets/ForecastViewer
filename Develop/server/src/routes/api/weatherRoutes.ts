@@ -2,16 +2,17 @@ import { Router, type Request, type Response } from 'express';
 const router = Router();
 
 import HistoryService from '../../service/historyService.js';
- import WeatherService from '../../service/weatherService.js';
+import WeatherService from '../../service/weatherService.js';
 
 // TODO: POST Request with city name to retrieve weather data
 router.post('/',async (req: Request, res: Response) => {
   // TODO: GET weather data from city name
   // TODO: save city to search history
-  const { city } = req.body; 
+  //console.log(req.body);
+ 
   if (req.body) {
     try{
-    await WeatherService.getWeatherForCity(city); //not sure about this one
+    await WeatherService.getWeatherForCity(req.body.cityName); //not sure about this one
     res.json(`Weather added successfully`);
   } catch (error) {
     console.log ('Error adding weather data:', error)

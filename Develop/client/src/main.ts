@@ -266,8 +266,8 @@ const handleSearchFormSubmit = (event: any): void => {
 
 const handleSearchHistoryClick = (event: any) => {
   if (event.target.matches('.history-btn')) {
-    const cityName = event.target.textContent;
-    fetchWeather(cityName).then(getAndRenderHistory);
+    const city = event.target.textContent;
+    fetchWeather(city).then(getAndRenderHistory);
   }
 };
 
@@ -289,4 +289,4 @@ const getAndRenderHistory = () =>
 searchForm?.addEventListener('submit', handleSearchFormSubmit);
 searchHistoryContainer?.addEventListener('click', handleSearchHistoryClick);
 
-getAndRenderHistory();
+//getAndRenderHistory();

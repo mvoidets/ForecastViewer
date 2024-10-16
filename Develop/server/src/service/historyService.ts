@@ -25,23 +25,10 @@ class HistoryService {
     });
   }
 
-  // private async write(cities: City[]) {
-  //   return await fs.writeFile('./db/searchHistory.json', JSON.stringify(cities, null, '\t'));
-  // }
-  
   private async write(cities: City[]) {
-    try {
-      // Ensure the directory exists
-      await fs.mkdir('./db', { recursive: true });
-  
-      // Write to the file
-      await fs.writeFile('./db/searchHistory.json', JSON.stringify(cities, null, '\t'));
-      console.log('File written successfully');
-    } catch (error) {
-      console.error('Error writing to file:', error);
-    }
+    return await fs.writeFile('./db/searchHistory.json', JSON.stringify(cities, null, '\t'));
   }
-
+  
   async getCities() {
     return await this.read().then((cities) => {
       let parsedCities: City[];

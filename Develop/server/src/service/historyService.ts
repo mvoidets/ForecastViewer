@@ -1,4 +1,5 @@
-import { promises as fs } from 'fs';
+//import { promises as fs } from 'fs';
+import fs from 'node:fs/promises';
 import { v4 as uuidv4 } from 'uuid';
 
 class City {
@@ -13,16 +14,34 @@ class City {
 
 class HistoryService {
   private async read() {
-    return await fs.readFile('searchHistory.json', {
+    try {
+      await fs.access('./db/searchHistory.json');
+    } catch (err) {
+      await fs.writeFile('./db/searchHistory.json', '[]');
+    }
+    return await fs.readFile('./db/searchHistory.json', {
       flag: 'a+',
       encoding: 'utf8',
     });
   }
 
+  // private async write(cities: City[]) {
+  //   return await fs.writeFile('./db/searchHistory.json', JSON.stringify(cities, null, '\t'));
+  // }
+  
   private async write(cities: City[]) {
-    return await fs.writeFile('searchHistory.json', JSON.stringify(cities, null, '\t'));
+    try {
+      // Ensure the directory exists
+      await fs.mkdir('./db', { recursive: true });
+  
+      // Write to the file
+      await fs.writeFile('./db/searchHistory.json', JSON.stringify(cities, null, '\t'));
+      console.log('File written successfully');
+    } catch (error) {
+      console.error('Error writing to file:', error);
+    }
   }
-   
+
   async getCities() {
     return await this.read().then((cities) => {
       let parsedCities: City[];

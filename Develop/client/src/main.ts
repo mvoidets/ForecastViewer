@@ -43,12 +43,12 @@ const fetchWeather = async (cityName: string) => {
     body: JSON.stringify({ cityName }),
   });
 
-  const weatherData = await response.json();
+  const data = await response.json();
 
-  console.log('weatherData: ', weatherData);
+  console.log('weatherData: ', data);
 
-  renderCurrentWeather(weatherData[0]);
-  renderForecast(weatherData.slice(1));
+  renderCurrentWeather(data.currentWeather);
+  renderForecast(data.forecastArray.slice(1));
 };
 
 const fetchSearchHistory = async () => {
@@ -77,20 +77,21 @@ Render Functions
 */
 
 const renderCurrentWeather = (currentWeather: any): void => {
-  const { city, date, icon, iconDescription, tempF, windSpeed, humidity } =
+  console.log(currentWeather);
+  let { city, date, icon, description, temperature, wind, humidity } =
     currentWeather;
-
+date = new Date(date * 1000).toLocaleDateString();
   // convert the following to typescript
   heading.textContent = `${city} (${date})`;
   weatherIcon.setAttribute(
     'src',
     `https://openweathermap.org/img/w/${icon}.png`
   );
-  weatherIcon.setAttribute('alt', iconDescription);
+  weatherIcon.setAttribute('alt', description);
   weatherIcon.setAttribute('class', 'weather-img');
   heading.append(weatherIcon);
-  tempEl.textContent = `Temp: ${tempF}°F`;
-  windEl.textContent = `Wind: ${windSpeed} MPH`;
+  tempEl.textContent = `Temp: ${temperature}°F`;
+  windEl.textContent = `Wind: ${wind} MPH`;
   humidityEl.textContent = `Humidity: ${humidity} %`;
 
   if (todayContainer) {
@@ -118,20 +119,20 @@ const renderForecast = (forecast: any): void => {
 };
 
 const renderForecastCard = (forecast: any) => {
-  const { date, icon, iconDescription, tempF, windSpeed, humidity } = forecast;
-
+  let { date, icon, description, temperature, wind, humidity } = forecast;
+  
   const { col, cardTitle, weatherIcon, tempEl, windEl, humidityEl } =
     createForecastCard();
-
+    date = new Date(date * 1000).toLocaleDateString();
   // Add content to elements
   cardTitle.textContent = date;
   weatherIcon.setAttribute(
     'src',
     `https://openweathermap.org/img/w/${icon}.png`
   );
-  weatherIcon.setAttribute('alt', iconDescription);
-  tempEl.textContent = `Temp: ${tempF} °F`;
-  windEl.textContent = `Wind: ${windSpeed} MPH`;
+  weatherIcon.setAttribute('alt', description);
+  tempEl.textContent = `Temp: ${temperature} °F`;
+  windEl.textContent = `Wind: ${wind} MPH`;
   humidityEl.textContent = `Humidity: ${humidity} %`;
 
   if (forecastContainer) {
@@ -265,8 +266,8 @@ const handleSearchFormSubmit = (event: any): void => {
 
 const handleSearchHistoryClick = (event: any) => {
   if (event.target.matches('.history-btn')) {
-    const city = event.target.textContent;
-    fetchWeather(city).then(getAndRenderHistory);
+    const cityName = event.target.textContent;
+    fetchWeather(cityName).then(getAndRenderHistory);
   }
 };
 
@@ -282,7 +283,7 @@ Initial Render
 
 */
 
-const getAndRenderHistory = () =>
+const getAndRenderHistory = () => 
   fetchSearchHistory().then(renderSearchHistory);
 
 searchForm?.addEventListener('submit', handleSearchFormSubmit);

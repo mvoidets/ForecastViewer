@@ -47,8 +47,8 @@ const fetchWeather = async (cityName: string) => {
 
   console.log('weatherData: ', data);
 
-  renderCurrentWeather(data.currentWeather);
-  renderForecast(data.forecastArray.slice(1));
+  renderCurrentWeather(data.currentWeather);//(this displays current day)
+  renderForecast(data.forecastArray.slice(1));//this displays 5-sday forecast(more like4-day forecast
 };
 
 const fetchSearchHistory = async () => {
@@ -60,6 +60,7 @@ const fetchSearchHistory = async () => {
   });
   return history;
 };
+
 
 const deleteCityFromHistory = async (id: string) => {
   await fetch(`/api/weather/history/${id}`, {
@@ -150,14 +151,14 @@ const renderSearchHistory = async (searchHistory: any) => {
       searchHistoryContainer.innerHTML =
         '<p class="text-center">No Previous Search History</p>';
     }
-
     // * Start at end of history array and count down to show the most recent cities at the top.
     for (let i = historyList.length - 1; i >= 0; i--) {
       const historyItem = buildHistoryListItem(historyList[i]);
       searchHistoryContainer.append(historyItem);
     }
-  }
+  }console.log("history list", historyList);
 };
+
 
 /*
 
@@ -203,12 +204,12 @@ const createForecastCard = () => {
   };
 };
 
-const createHistoryButton = (city: string) => {
+const createHistoryButton = (cityName: string) => {
   const btn = document.createElement('button');
   btn.setAttribute('type', 'button');
   btn.setAttribute('aria-controls', 'today forecast');
   btn.classList.add('history-btn', 'btn', 'btn-secondary', 'col-10');
-  btn.textContent = city;
+  btn.textContent = cityName;
 
   return btn;
 };
@@ -235,14 +236,15 @@ const createHistoryDiv = () => {
   return div;
 };
 
-const buildHistoryListItem = (city: any) => {
-  const newBtn = createHistoryButton(city.name);
+const buildHistoryListItem = (cityName: any) => {
+  const newBtn = createHistoryButton(cityName.name);
   const deleteBtn = createDeleteButton();
-  deleteBtn.dataset.city = JSON.stringify(city);
+  deleteBtn.dataset.cityName = JSON.stringify(cityName);
   const historyDiv = createHistoryDiv();
   historyDiv.append(newBtn, deleteBtn);
   return historyDiv;
 };
+
 
 /*
 
@@ -289,4 +291,6 @@ const getAndRenderHistory = () =>
 searchForm?.addEventListener('submit', handleSearchFormSubmit);
 searchHistoryContainer?.addEventListener('click', handleSearchHistoryClick);
 
-//getAndRenderHistory();
+
+
+getAndRenderHistory();

@@ -110,7 +110,8 @@ private async fetchLocationData() {
     //select 5days of forecast data
     const dailyForecasts = forecastData.list
             .filter((_: any, index: number) => index % 8 === 0) // Get every 8th element
-            .slice(0, 6); 
+            //.slice(0, 6); 
+            //dailyForecasts.unshift(forecastData.list[8]);
     forecastData.list = dailyForecasts;
 
     const allWeatherData = { ...weatherData, daily: forecastData.list };

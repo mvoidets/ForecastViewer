@@ -8,23 +8,6 @@ lon: string;
 
 }
 
-//where do i define city the user will enter??? 
-// let city;  ???
-// // TODO: Define a class for the Weather objlet
-// class Weather {
-//   temperature: string;
-//   conditions: string;
-
-
-//   constructor(temperature: string, conditions: string) {
-//     this.temperature = temperature;
-//     this.conditions = conditions;
-    
-  
-// }
-// };
-
-
 // TODO: Complete the WeatherService class
 class WeatherService {
   city = '';
@@ -41,7 +24,6 @@ class WeatherService {
   }
 
   // TODO: Create fetchLocationData method
-  //i dont know lat and lon at this point???  only city  name
 
 private async fetchLocationData() {
   console.log(this.cityName);
@@ -60,7 +42,7 @@ private async fetchLocationData() {
 }
   // TODO: Create destructureLocationData method
   private async destructureLocationData() {
-    // const  locationData = await this.fetchLocationData(city)
+    
     try {
       const locationData = await this.fetchLocationData();
             // Destructure to get city name and coordinates
@@ -95,23 +77,20 @@ private async fetchLocationData() {
     return this.destructureLocationData();
 }
 
-
-
-
   // TODO: Create fetchWeatherData method
   private async fetchWeatherData(coordinates: Coordinates) {
     const response = await fetch(this.buildWeatherQuery(coordinates));
-    //const forecastResponse = await fetch(`${this.baseURL}/data/2.5/forecast/daily?lat=${coordinates.lat}&lon=${coordinates.lon}&units=imperial&cnt=5&appid=${this.apiKey}`);
     const forecastResponse = await fetch(`${this.baseURL}/data/2.5/forecast?lat=${coordinates.lat}&lon=${coordinates.lon}&units=imperial&cnt=48&appid=${this.apiKey}`);
     const weatherData = await response.json();
     console.log(weatherData);
+    
     const forecastData = await forecastResponse.json();
-
+  
     //select 5days of forecast data
     const dailyForecasts = forecastData.list
             .filter((_: any, index: number) => index % 8 === 0) // Get every 8th element
-            //.slice(0, 6); 
-            //dailyForecasts.unshift(forecastData.list[8]);
+            //.slice(0, 5); 
+            //dailyForecasts.unshift(forecastData.list[6]);
     forecastData.list = dailyForecasts;
 
     const allWeatherData = { ...weatherData, daily: forecastData.list };
@@ -131,9 +110,9 @@ private async fetchLocationData() {
 }
 
   // TODO: Complete buildForecastArray method
-  private buildForecastArray( weatherData: any[]) {
+  private buildForecastArray( allWeatherData: any[]) {
   
-    return weatherData.map(data => ({
+    return allWeatherData.map(data => ({
       date: data.dt,
       icon: data.weather[0].icon,
       description: data.weather[0].description,

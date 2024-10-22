@@ -48,7 +48,7 @@ const fetchWeather = async (cityName: string) => {
   console.log('weatherData: ', data);
 
   renderCurrentWeather(data.currentWeather);//(this displays current day)
-  renderForecast(data.forecastArray.slice(1));//this displays 5-sday forecast(more like4-day forecast
+  renderForecast(data.forecastArray);//this displays 5-sday forecast(more like4-day forecast
 };
 
 const fetchSearchHistory = async () => {
@@ -156,7 +156,7 @@ const renderSearchHistory = async (searchHistory: any) => {
       const historyItem = buildHistoryListItem(historyList[i]);
       searchHistoryContainer.append(historyItem);
     }
-  }console.log("history list", historyList);
+  }
 };
 
 

@@ -21,7 +21,7 @@
 
     To see weather for 5-day forecast.
 
-![ForecastViewer Design](/Assets/application_loaded.png)
+![ForecastViewer Design](/Assets/application_loaded1.png)
 
   ## Install
 
